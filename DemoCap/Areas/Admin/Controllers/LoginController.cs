@@ -21,8 +21,8 @@ namespace DemoCap.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var dao = new UserDao();
-                var result = dao.Login(model.UserName, Encryptor.MD5Hash(model.Password));
-                if (result == 1)
+                var result = dao.Login(model.UserName, model.Password);
+                if (result)
                 {
                     var user = dao.GetByID(model.UserName);
                     var userSession = new UserLogin();
@@ -31,25 +31,10 @@ namespace DemoCap.Areas.Admin.Controllers
                     Session.Add(CommonConstants.USER_SESSION, userSession);
                     return RedirectToAction("Index", "Home");
                 }
-                else if (result == 0)
-                {
-                    ModelState.AddModelError("", "Tai khoan khong ton tai");
-                }
-                else if (result == -1)
-                {
-                    ModelState.AddModelError("", "Tai khoan bi khoa");
-
-                }
-                else if (result == -2)
-                {
-                    ModelState.AddModelError("", "Sai mat khau ");
-
-                }
                 else
                 {
-                    ModelState.AddModelError("", "dang nhap khong dung ");
+                    ModelState.AddModelError("", "Dang nhap khong dung");
                 }
-                
             }
             return View("Index");
         }

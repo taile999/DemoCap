@@ -1,4 +1,5 @@
-﻿using DemoCap.Common;
+﻿using DemoCap.Areas.Admin.Models;
+using DemoCap.Common;
 using DemoCap.Models.DAO;
 using DemoCap.Models.EF;
 using System;
@@ -20,6 +21,7 @@ namespace DemoCap.Areas.Admin.Controllers
                 ViewBag.SearchString = searchString;
                 return View(model);
             }
+        
             [HttpGet]
             public ActionResult Create()
             {
@@ -83,5 +85,6 @@ namespace DemoCap.Areas.Admin.Controllers
                 new UserDao().Delete(id);
                 return RedirectToAction("Index");
             }
-        }
     }
+    
+ }

@@ -8,6 +8,7 @@ namespace DemoCap.Models.DAO
 {
     public class UserDao
     {
+
         OnlineShopDBContext db = null;
         public UserDao()
         {
@@ -52,43 +53,6 @@ namespace DemoCap.Models.DAO
             }
             return model.OrderByDescending(x => x.CreatedDate).ToPagedList(page, pageSize);
         }
-        public User GetByID(string userName)
-        {
-            return db.Users.SingleOrDefault(x => x.UserName == userName);
-        }
-
-        public User ViewDetail(int id)
-        {
-            return db.Users.Find(id);
-        }
-        public int Login(string userName, string passWord)
-        {
-            var result = db.Users.SingleOrDefault(x => x.UserName == userName);
-            if (result == null)
-            {
-                return 0;
-            }
-            else
-            {
-                if (result.Status == false)
-                {
-                    return -1;
-                }
-                else
-                {
-                    if (result.Password == passWord)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return -2;
-                    }
-
-                }
-            }
-        }
-
         public bool Delete(int id)
         {
             try
@@ -103,6 +67,29 @@ namespace DemoCap.Models.DAO
                 return false;
             }
         }
+        public User GetByID(string userName)
+        {
+            return db.Users.SingleOrDefault(x => x.UserName == userName);
+        }
+        public bool Login(string username, string password)
+        {
 
+            var result = db.Users.Count(x => x.UserName == username && x.Password == password);
+            if (result > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public User ViewDetail(int id)
+        {
+            return db.Users.Find(id);
+        }
+       
     }
+
 }
